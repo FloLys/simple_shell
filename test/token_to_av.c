@@ -27,7 +27,7 @@ char **token_to_av(char *str, char *delim)
 	for (enter = 0; index[i - 1][enter] != '\n'; enter++);
 
 	index[i - 1][enter] = '\0';
-
+	
 	return (index);
 }
 /**
