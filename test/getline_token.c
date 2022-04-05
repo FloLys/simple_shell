@@ -3,13 +3,14 @@
 int main(void)
 {
 	char **index = NULL;
-	int i;
-
+/*	int i;
+*/
 	index = getline_token();
-
+/*
 	for (i = 0; index[i] != NULL; i++)
 		printf("%s\n", index[i]);	
 
+*/	free(index);
 	return(0);
 }
 
@@ -19,7 +20,7 @@ char **getline_token(void)
 	char eof[4]="EOF";
 	char end[12]="end-of-file";
 	size_t bufsize = 32;
-	int characters = 0;
+	int characters = 0, i;
 	char **index = NULL;
 
 	buffer = (char *)malloc(bufsize * sizeof(char));
@@ -33,14 +34,15 @@ char **getline_token(void)
 	{
 		printf("SS$: ");
 		characters = getline(&buffer, &bufsize, stdin);
-
-		if (characters == -1 || strncmp(buffer, end, 11) == 0 || strncmp(buffer, eof, 3) == 0 || buffer == 0)
-			break;
 		index = token_to_av(buffer, " ");
 
-		return (index);
+		for (i = 0; index[i] != NULL; i++)
+			printf("%s\n", index[i]);	
+
+		if (strncmp(buffer, end, 11) == 0 || strncmp(buffer, eof, 3) == 0 || buffer == 0)
+			break;
 	}
 
 	free (buffer);
-	return(NULL);
+	return(index);
 }
