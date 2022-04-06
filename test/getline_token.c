@@ -6,14 +6,14 @@ int main(void)
 	char eof[4]="EOF";
 	char end[12]="end-of-file";
 	size_t bufsize = 32;
-	int characters, i = 0;
+	int characters;/* i = 0;*/
 	char **index = NULL;
-	char *cmd = "/bin/";
+	/*char *cmd = "/bin/";*/
 	/*char *av[];*/
 	/*char *env[] = {"/bin", NULL};*/
 	pid_t child_pid;
 
-	/*buffer = (char *)malloc(bufsize * sizeof(char));*/
+	buffer = (char *)malloc(bufsize * sizeof(char));
 	if(buffer == NULL)
 	{
 		perror("Unable to allocate buffer");
@@ -47,6 +47,6 @@ int main(void)
 	}
 
 	free (buffer);
-	
+return (0);	
 	
 }
