@@ -7,8 +7,9 @@ int main(void)
 	char end[12]="end-of-file";
 	size_t bufsize = 32;
 	int characters;
-	char **index = NULL;
+	char **index = NULL, **path = NULL;
 	pid_t child_pid;
+	struct stat st;
 
 	buffer = (char *)malloc(bufsize * sizeof(char));
 	if(buffer == NULL)
@@ -25,9 +26,9 @@ int main(void)
 			break;
 
 		index = token_to_av(buffer, " ");
+		path = token_to_av(_getenv("PATH", ":"));
 
 		child_pid = fork();
-
 		if (child_pid == -1)
 		{
 			perror("Error:");
@@ -37,7 +38,7 @@ int main(void)
 		if (child_pid == 0)
 		{
 			execve(index[0], index, NULL);
-			return (0);
+			exit(0);
 		}
 		wait(NULL);	
 
@@ -47,5 +48,4 @@ int main(void)
 
 	free (buffer);
 	return (0);	
-
 }
