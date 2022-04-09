@@ -15,7 +15,12 @@ char **token_to_av(char *str, char *delim)
 	size = token_cn(str, delim);
 
 	index = malloc((size + 1) * sizeof(char *));
-	
+	if (index == NULL)
+	{
+		perror("Unable to allocate");
+		exit(1);
+	}
+
 	token = strtok(str, delim);
 
 	for (i = 0; token; i++)
@@ -27,7 +32,7 @@ char **token_to_av(char *str, char *delim)
 	for (enter = 0; index[i - 1][enter] != '\n'; enter++);
 
 	index[i - 1][enter] = '\0';
-	
+
 	return (index);
 }
 /**

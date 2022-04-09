@@ -26,7 +26,7 @@ int main(void)
 			break;
 
 		index = token_to_av(buffer, " ");
-		path = token_to_av(_getenv("PATH", ":"));
+//		path = token_to_av(_getenv("PATH"), ":");
 
 		child_pid = fork();
 		if (child_pid == -1)
