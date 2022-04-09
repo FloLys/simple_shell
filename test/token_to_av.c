@@ -29,7 +29,14 @@ char **token_to_av(char *str, char *delim)
 		token = strtok(NULL, delim);
 	}
 	index[i] = NULL;
-	for (enter = 0; index[i - 1][enter] != '\n'; enter++);
+
+	for (enter = 0; index[i - 1][enter] != '\n'; enter++)
+	{
+		if (index[i - 1][enter] == '\0')
+		{
+			break;
+		}
+	}
 
 	index[i - 1][enter] = '\0';
 
