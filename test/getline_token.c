@@ -2,15 +2,16 @@
 
 int main(void)
 {
-	char *buffer;
+	char *buffer, *str = NULL;
 	char eof[4]="EOF";
 	char end[12]="end-of-file";
 	size_t bufsize = 32;
-	int characters;
+	int characters, i;
 	char **index = NULL, **path = NULL;
 	pid_t child_pid;
 	struct stat st;
 
+	path = token_to_av(_getenv("PATH"), ":");
 	buffer = (char *)malloc(bufsize * sizeof(char));
 	if(buffer == NULL)
 	{
@@ -26,7 +27,28 @@ int main(void)
 			break;
 
 		index = token_to_av(buffer, " ");
-//		path = token_to_av(_getenv("PATH"), ":");
+
+		if (index[0][0] != '/')
+		{
+			for (i = 0; path[i] != NULL; i++)
+			{	
+				str = NULL;
+				str = _strcat(path[i], "/");
+				printf("%s\n", str);
+				str = _strcat(str, index[0]);
+				printf("%s\n", str);
+
+				if (stat(str, &st) == 0)
+				{
+					printf("program found\n");
+				}
+				else
+				{
+					printf("not found\n");
+					;
+				}
+			}
+		}
 
 		child_pid = fork();
 		if (child_pid == -1)

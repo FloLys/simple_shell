@@ -14,5 +14,6 @@ char **token_to_av(char *str, char *delim);
 int token_cn(char *str, char *delim);
 /*int execve(char *const pathname[], char *const argv[], char *const envp[]); */
 char *_getenv(const char *var);
+char *_strcat(char *dest, char *src);
 
 #endif
