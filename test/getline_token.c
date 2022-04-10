@@ -2,11 +2,11 @@
 
 int main(void)
 {
-	char *buffer, *str = NULL;
+	char *buffer, *fullpath = NULL;
 	char eof[4]="EOF";
 	char end[12]="end-of-file";
 	size_t bufsize = 32;
-	int characters, i;
+	int characters, i, flag;
 	char **index = NULL, **path = NULL;
 	pid_t child_pid;
 	struct stat st;
@@ -32,40 +32,44 @@ int main(void)
 		{
 			for (i = 0; path[i] != NULL; i++)
 			{	
-				str = NULL;
-				str = _strcat(path[i], "/");
-				printf("%s\n", str);
-				str = _strcat(str, index[0]);
-				printf("%s\n", str);
+				fullpath = _strcat(path[i], "/");
+			//	printf("%s\n", fullpath);
+				fullpath = _strcat(fullpath, index[0]);
+			//	printf("%s\n", fullpath);
 
-				if (stat(str, &st) == 0)
+				if (stat(fullpath, &st) == 0)
 				{
-					printf("program found\n");
+			//		printf("PROGRAM FOUND\n");
+					flag = 1;
+					break;
 				}
-				else
+			/*	else
 				{
-					printf("not found\n");
-					;
-				}
+					printf("NOT FOUND\n");
+				}*/
 			}
 		}
+		flag = 0;
 
-		child_pid = fork();
-		if (child_pid == -1)
+		if (flag == 1 || flag == 0)
 		{
-			perror("Error:");
-			exit(1);
-		}
+			child_pid = fork();
+			if (child_pid == -1)
+			{
+				perror("Error:");
+				exit(1);
+			}
 
-		if (child_pid == 0)
-		{
-			execve(index[0], index, NULL);
-			exit(0);
-		}
-		wait(NULL);	
+			if (child_pid == 0)
+			{
+				execve(fullpath, index, NULL);
+				exit(0);
+			}
+			wait(NULL);	
 
-		if (strncmp(buffer, end, 11) == 0 || strncmp(buffer, eof, 3) == 0 || buffer == 0)
-			break;
+			if (strncmp(buffer, end, 11) == 0 || strncmp(buffer, eof, 3) == 0 || buffer == 0)
+				break;
+		}
 	}
 
 	free (buffer);
