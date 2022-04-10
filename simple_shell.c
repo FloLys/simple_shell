@@ -2,11 +2,11 @@
 
 int main(void)
 {
-	char *buffer, *fullpath = NULL;
+	char *buffer = NULL, *fullpath = NULL, *fullpathaux = NULL;
 	char eof[4]="EOF";
 	char end[12]="end-of-file";
 	size_t bufsize = 32;
-	int characters, i, flag;
+	int characters = 0, i, flag;
 	char **index = NULL, **path = NULL;
 	pid_t child_pid;
 	struct stat st;
@@ -16,6 +16,7 @@ int main(void)
 	if(buffer == NULL)
 	{
 		perror("Unable to allocate buffer");
+		free(path);
 		exit(1);
 	}
 
@@ -24,7 +25,10 @@ int main(void)
 		printf("SS$: ");
 		characters = getline(&buffer, &bufsize, stdin);
 		if (characters == -1)
+		{
+			free(index);
 			break;
+		}
 
 		index = token_to_av(buffer, " ");
 
@@ -32,18 +36,19 @@ int main(void)
 		{
 			for (i = 0; path[i] != NULL; i++)
 			{	
-				fullpath = _strcat(path[i], "/");
-				fullpath = _strcat(fullpath, index[0]);
+				fullpathaux = _strcat(path[i], "/");
+				fullpath = _strcat(fullpathaux, index[0]);
+				free(fullpathaux);
 
 				if (stat(fullpath, &st) == 0)
 				{
 					flag = 1;
 					break;
 				}
-				else
+			/*	else
 				{
 					free(fullpath);
-				}
+				}*/
 			}
 		}
 		flag = 0;
@@ -55,7 +60,7 @@ int main(void)
 			{
 				perror("Error:");
 				free(fullpath);
-				free(buffer);
+				free(index);
 				exit(1);
 			}
 
@@ -63,18 +68,20 @@ int main(void)
 			{
 				execve(fullpath, index, NULL);
 				free(fullpath);
-				free(buffer);
+				free(index);
 				exit(0);
 			}
 			wait(NULL);	
 
 			if (strncmp(buffer, end, 11) == 0 || strncmp(buffer, eof, 3) == 0 || buffer == 0)
 			{
+				free(fullpath);
+				free(index);
 				break;
 			}
 		}
 	}
-	free(fullpath);
+	free(path);
 	free(buffer);
 	return (0);	
 }
