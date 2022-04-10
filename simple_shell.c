@@ -33,9 +33,11 @@ int main(void)
 		}
 
 		index = token_to_av(buffer, " ");
-
+		
+		flag = 0;
 		if (index[0][0] != '/')
 		{
+			
 			for (i = 0; path[i] != NULL; i++)
 			{
 				fullpathaux = _strcat(path[i], "/");
@@ -44,15 +46,46 @@ int main(void)
 
 				if (stat(fullpath, &st) == 0)
 				{
-					flag = 1;
+					flag = 2;
 					break;
+				
 				}
+				
+			}
+			if (stat(fullpath, &st) != 0)
+			{
+			perror("command not found");
+			flag = 1;
 			}
 		}
-		flag = 0;
+		
 
-		if (flag == 1 || flag == 0)
+		if (flag == 0 || flag == 2)
 		{
+		/*	if (flag == 1)
+			{
+				if (stat(fullpath, &st) != 0)
+				{
+					perror("command not found");
+					free(fullpath);
+				
+						
+				}
+			}*/
+
+			if (flag == 0)
+			{
+				fullpath = index[0];
+				if (stat(fullpath, &st) != 0)
+				{
+					perror("command not found");
+					free(fullpath);
+					
+					
+				}
+			}
+
+
 			child_pid = fork();
 
 			if (child_pid == 0)
@@ -68,10 +101,14 @@ int main(void)
 				free(fullpath);
 				free(index);
 				break;
+			
 			}
-		}
+			}
+		
 	}
 	free(path);
 	free(buffer);
 	return (0);	
-}
+
+	}
+
