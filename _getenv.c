@@ -28,7 +28,9 @@ char *_getenv(const char *var)
 
 				path = malloc(sizeof(char) * (j + 1));
 				if (path == NULL)
+				{
 					exit(1);
+				}
 
 				for (;environ[i][auxj] != '\0'; auxj++)
 				{
