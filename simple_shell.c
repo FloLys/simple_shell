@@ -11,7 +11,7 @@ int main(void)
 	char **index = NULL, **path = NULL;
 	pid_t child_pid;
 	struct stat st;
-	
+
 	env = _getenv("PATH");
 	path = token_to_av(env, ":");
 	free(env);
@@ -29,17 +29,18 @@ int main(void)
 		characters = getline(&buffer, &bufsize, stdin);
 		if (characters == -1)
 		{
+			free(fullpath);
 			break;
 		}
 
 		index = token_to_av(buffer, " ");
-		
+
 		flag = 0;
 		if (index[0][0] != '/')
 		{
-			
 			for (i = 0; path[i] != NULL; i++)
 			{
+				free(fullpath);
 				fullpathaux = _strcat(path[i], "/");
 				fullpath = _strcat(fullpathaux, index[0]);
 				free(fullpathaux);
@@ -48,46 +49,27 @@ int main(void)
 				{
 					flag = 2;
 					break;
-				
 				}
-				
 			}
 			if (stat(fullpath, &st) != 0)
 			{
-			perror("command not found");
-			flag = 1;
+				perror("Command not found");
+				flag = 1;
 			}
 		}
-		
 
 		if (flag == 0 || flag == 2)
 		{
-		/*	if (flag == 1)
-			{
-				if (stat(fullpath, &st) != 0)
-				{
-					perror("command not found");
-					free(fullpath);
-				
-						
-				}
-			}*/
-
 			if (flag == 0)
 			{
 				fullpath = index[0];
 				if (stat(fullpath, &st) != 0)
 				{
-					perror("command not found");
-					free(fullpath);
-					
-					
+					perror("Command not found");
 				}
 			}
 
-
 			child_pid = fork();
-
 			if (child_pid == 0)
 			{
 				execve(fullpath, index, NULL);
@@ -101,14 +83,10 @@ int main(void)
 				free(fullpath);
 				free(index);
 				break;
-			
 			}
-			}
-		
+		}
 	}
 	free(path);
 	free(buffer);
-	return (0);	
-
-	}
-
+	return (0);
+}
