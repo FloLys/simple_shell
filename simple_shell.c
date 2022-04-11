@@ -22,7 +22,7 @@ int main(void)
 
 	while (characters != -1)
 	{
-		printf("SS$: ");
+		write(1, "SS$: ", 5);
 		characters = getline(&buffer, &bufsize, stdin);
 		if (characters == -1)
 		{
@@ -77,6 +77,6 @@ int main(void)
 	free(fullpath);
 	free(path);
 	free(buffer);
-	printf("exit\n");
+	write(1, "exit\n", 5);
 	return (0);
 }
