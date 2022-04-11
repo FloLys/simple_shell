@@ -48,7 +48,7 @@ int main(void)
 			}
 			if (stat(fullpath, &st) != 0)
 			{
-				perror("not found");
+				perror(fullpath);
 				free(index);
 				flag = 2;
 			}
@@ -58,7 +58,7 @@ int main(void)
 		{
 			if (stat(index[0], &st) != 0)
 			{
-				perror("not found");
+				perror(index[0]);
 				
 			
 			}
