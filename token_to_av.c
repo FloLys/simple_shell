@@ -10,7 +10,8 @@ char **token_to_av(char *str, char *delim)
 {
 	char **index = NULL;
 	char *token = NULL;
-	int i, size, enter;
+	char *strrest = str;
+	int i = 0, size = 0, enter = 0;
 
 	size = token_cn(str, delim);
 
@@ -21,12 +22,12 @@ char **token_to_av(char *str, char *delim)
 		exit(1);
 	}
 
-	token = strtok(str, delim);
+	token = strtok_r(str, delim, &strrest);
 
 	for (i = 0; token; i++)
 	{
 		index[i] = token;
-		token = strtok(NULL, delim);
+		token = strtok_r(NULL, delim, &strrest);
 	}
 	index[i] = NULL;
 
@@ -50,13 +51,12 @@ char **token_to_av(char *str, char *delim)
 */
 int token_cn(char *str, char *delim)
 {
-	int i, size = 1;
+	int i = 0, size = 1;
 
 	for (i = 0; str[i] != '\0'; i++)
 	{
 		if (str[i] == delim[0])
 			size++;
 	}
-
 	return (size);
 }
