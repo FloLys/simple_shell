@@ -5,7 +5,7 @@ int main(void)
 	char *buffer = NULL, *fullpath = NULL, *fullpathaux = NULL;
 	char *env = NULL;
 	size_t bufsize = 1024;
-	int characters = 0, i, flag, status;
+	int characters = 0, i = 0, flag = 0, status = 0;
 	char **index = NULL, **path = NULL;
 	pid_t child_pid;
 	struct stat st;
@@ -89,5 +89,5 @@ int main(void)
 	free(buffer);
 	if (isatty(0))
 		write(1, "exit\n", 5);
-	return WEXITSTATUS(status);
+	exit(2);
 }
