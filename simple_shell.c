@@ -69,7 +69,7 @@ int main(void)
 			exit(0);
 		}
 		wait(NULL);
-/*		free(index); */
+		free(index);
 		}
 	/*not slash only ls*/
 		if (flag == 1)
