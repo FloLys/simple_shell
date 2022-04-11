@@ -58,5 +58,5 @@ int token_cn(char *str, char *delim)
 			size++;
 	}
 
-	return(size);
+	return (size);
 }
