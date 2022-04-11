@@ -10,24 +10,23 @@ char **token_to_av(char *str, char *delim)
 {
 	char **index = NULL;
 	char *token = NULL;
-	char *strrest = str;
 	int i = 0, size = 0, enter = 0;
 
 	size = token_cn(str, delim);
 
-	index = malloc((size + 1) * sizeof(char *));
+	index = _calloc((size + 1), sizeof(char *));
 	if (index == NULL)
 	{
 		perror("Unable to allocate");
 		exit(1);
 	}
 
-	token = strtok_r(str, delim, &strrest);
+	token = strtok(str, delim);
 
 	for (i = 0; token; i++)
 	{
 		index[i] = token;
-		token = strtok_r(NULL, delim, &strrest);
+		token = strtok(NULL, delim);
 	}
 	index[i] = NULL;
 

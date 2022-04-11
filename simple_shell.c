@@ -13,14 +13,14 @@ int main(void)
 	env = _getenv("PATH");
 	path = token_to_av(env, ":");
 	free(env);
-	buffer = (char *)malloc(bufsize * sizeof(char));
+	buffer = (char *)_calloc(bufsize, sizeof(char));
 	if (buffer == NULL)
 	{
 		perror("Unable to allocate buffer");
 		exit(1);
 	}
 
-	while (characters != -1)
+	while (1)
 	{
 		if (isatty(0))
 			write(1, "$ ", 5);
