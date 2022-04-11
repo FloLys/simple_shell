@@ -26,7 +26,7 @@ int main(void)
 		characters = getline(&buffer, &bufsize, stdin);
 		if (characters == -1)
 		{
-			free(fullpath);
+		/*	free(fullpath);*/
 			break;
 		}
 		index = token_to_av(buffer, " ");
@@ -50,6 +50,7 @@ int main(void)
 			if (stat(fullpath, &st) != 0)
 			{
 				perror("Command not found");
+				free(index);
 				flag = 2;
 			}
 		}
@@ -58,8 +59,7 @@ int main(void)
 		{
 			if (flag == 0)
 			{
-				fullpath = index[0];
-				if (stat(fullpath, &st) != 0)
+				if (stat(index[0], &st) != 0)
 				{
 					perror("Command not found");
 				}
@@ -72,10 +72,12 @@ int main(void)
 				exit(0);
 			}
 			wait(NULL);
-			free(index);
+		/*	free(index);*/
+		/*	free(fullpath);*/
 		}
 	}
-/*	free(fullpath);*/
+/*	free(index);*/
+	free(fullpath);
 	free(path);
 	free(buffer);
 	printf("exit\n");
