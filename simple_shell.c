@@ -4,8 +4,6 @@ int main(void)
 {
 	char *buffer = NULL, *fullpath = NULL, *fullpathaux = NULL;
 	char *env = NULL;
-	char eof[4]="EOF";
-	char end[12]="end-of-file";
 	size_t bufsize = 32;
 	int characters = 0, i, flag;
 	char **index = NULL, **path = NULL;
@@ -19,7 +17,6 @@ int main(void)
 	if(buffer == NULL)
 	{
 		perror("Unable to allocate buffer");
-		free(path);
 		exit(1);
 	}
 
@@ -32,7 +29,6 @@ int main(void)
 			free(fullpath);
 			break;
 		}
-
 		index = token_to_av(buffer, " ");
 
 		flag = 0;
@@ -47,18 +43,18 @@ int main(void)
 
 				if (stat(fullpath, &st) == 0)
 				{
-					flag = 2;
+					flag = 1;
 					break;
 				}
 			}
 			if (stat(fullpath, &st) != 0)
 			{
 				perror("Command not found");
-				flag = 1;
+				flag = 2;
 			}
 		}
 
-		if (flag == 0 || flag == 2)
+		if (flag == 0 || flag == 1)
 		{
 			if (flag == 0)
 			{
@@ -77,16 +73,11 @@ int main(void)
 			}
 			wait(NULL);
 			free(index);
-
-			if (strncmp(buffer, end, 11) == 0 || strncmp(buffer, eof, 3) == 0 || buffer == 0)
-			{
-				free(fullpath);
-				free(index);
-				break;
-			}
 		}
 	}
+/*	free(fullpath);*/
 	free(path);
 	free(buffer);
+	printf("exit\n");
 	return (0);
 }
