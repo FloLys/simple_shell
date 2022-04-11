@@ -22,7 +22,8 @@ int main(void)
 
 	while (characters != -1)
 	{
-		write(1, "$ ", 5);
+		if (isatty(0))
+			write(1, "$ ", 5);
 		characters = getline(&buffer, &bufsize, stdin);
 		if (characters == -1)
 		{
@@ -77,6 +78,7 @@ int main(void)
 	free(fullpath);
 	free(path);
 	free(buffer);
-	write(1, "exit\n", 5);
+	if (isatty(0))
+		write(1, "exit\n", 5);
 	return (0);
 }
