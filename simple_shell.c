@@ -75,7 +75,7 @@ int main(void)
 			execve(index[0], index, NULL);
 			exit(0);
 		}
-		wait(NULL);
+		wait(&status);
 		free(index);
 		}
 	/*not slash only ls*/
