@@ -22,7 +22,7 @@ int main(void)
 
 	while (characters != -1)
 	{
-		write(1, "SS$: ", 5);
+		write(1, "$ ", 5);
 		characters = getline(&buffer, &bufsize, stdin);
 		if (characters == -1)
 		{
