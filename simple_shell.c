@@ -14,7 +14,7 @@ int main(void)
 	path = token_to_av(env, ":");
 	free(env);
 	buffer = (char *)malloc(bufsize * sizeof(char));
-	if(buffer == NULL)
+	if (buffer == NULL)
 	{
 		perror("Unable to allocate buffer");
 		exit(1);
