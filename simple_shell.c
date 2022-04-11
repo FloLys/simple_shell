@@ -59,6 +59,8 @@ int main(void)
 			if (stat(index[0], &st) != 0)
 			{
 				perror("not found");
+				
+			
 			}
 	
 		child_pid = fork();
@@ -89,5 +91,5 @@ int main(void)
 	free(buffer);
 	if (isatty(0))
 		write(1, "exit\n", 6);
-	exit(2);
+	return(status);
 }
