@@ -4,7 +4,7 @@ int main(void)
 {
 	char *buffer = NULL, *fullpath = NULL, *fullpathaux = NULL;
 	char *env = NULL;
-	size_t bufsize = 32;
+	size_t bufsize = 1024;
 	int characters = 0, i, flag;
 	char **index = NULL, **path = NULL;
 	pid_t child_pid;
@@ -30,7 +30,7 @@ int main(void)
 			break;
 		}
 		index = token_to_av(buffer, " ");
-
+		
 		flag = 0;
 		if (index[0][0] != '/')
 		{
@@ -49,30 +49,39 @@ int main(void)
 			}
 			if (stat(fullpath, &st) != 0)
 			{
-				perror("Command not found");
+				perror("not found");
 				free(index);
 				flag = 2;
 			}
 		}
-
-		if (flag == 0 || flag == 1)
+	/*slash case bin ls*/
+		if (flag == 0)
 		{
-			if (flag == 0)
+			if (stat(index[0], &st) != 0)
 			{
-				if (stat(index[0], &st) != 0)
-				{
-					perror("Command not found");
-				}
+				perror("not found");
 			}
-
-			child_pid = fork();
+	
+		child_pid = fork();
+		if (child_pid == 0)
+		{
+			execve(index[0], index, NULL);
+			exit(0);
+		}
+		wait(NULL);
+		free(index);
+		}
+	/*not slash only ls*/
+		if (flag == 1)
+		{
+		child_pid = fork();
 			if (child_pid == 0)
 			{
 				execve(fullpath, index, NULL);
 				exit(0);
 			}
-			wait(NULL);
-			free(index);
+		wait(NULL);
+		free(index);
 		}
 	}
 	free(fullpath);
