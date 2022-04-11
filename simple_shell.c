@@ -12,7 +12,6 @@ int main(void)
 
 	env = _getenv("PATH");
 	path = token_to_av(env, ":");
-	free(env);
 	buffer = (char *)_calloc(bufsize, sizeof(char));
 	if (buffer == NULL)
 	{
@@ -23,7 +22,7 @@ int main(void)
 	while (1)
 	{
 		if (isatty(0))
-			write(1, "$ ", 5);
+			write(1, "$ ", 3);
 		characters = getline(&buffer, &bufsize, stdin);
 		if (characters == -1)
 		{
@@ -84,10 +83,11 @@ int main(void)
 		free(index);
 		}
 	}
+	free(env);
 	free(fullpath);
 	free(path);
 	free(buffer);
 	if (isatty(0))
-		write(1, "exit\n", 5);
+		write(1, "exit\n", 6);
 	exit(2);
 }
