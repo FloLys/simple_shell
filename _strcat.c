@@ -19,7 +19,7 @@ char *_strcat(char *dest, char *src)
 	while (src[srcSize] != '\0')
 		srcSize++;
 
-	strcat = malloc(sizeof(char) * (destSize + srcSize));
+	strcat = malloc(sizeof(char) * (destSize + srcSize) + 1);
 
 	for (a = 0; a <= destSize; a++)
 		strcat[a] = dest[a];
