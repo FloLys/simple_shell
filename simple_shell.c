@@ -53,6 +53,7 @@ int main(void)
 				free(index);
 				free(err);
 				flag = 2;
+				exit(EXIT_FAILURE);
 			}
 		}
 	/*slash case bin ls*/
@@ -66,6 +67,7 @@ int main(void)
                                 
                                 free(err);
                                 flag = 2;
+				exit(EXIT_FAILURE);
 			
 			}
 	
@@ -85,7 +87,7 @@ int main(void)
 			if (child_pid == 0)
 			{
 				execve(fullpath, index, NULL);
-				exit(0);
+				exit(EXIT_SUCCESS);
 			}
 		wait(&status);
 		free(index);
@@ -97,5 +99,5 @@ int main(void)
 	free(buffer);
 	if (isatty(0))
 		write(1, "exit\n", 6);
-	return(status);
+	return(WEXITSTATUS(status));
 }
