@@ -26,7 +26,6 @@ int main(void)
 		characters = getline(&buffer, &bufsize, stdin);
 		if (characters == -1)
 		{
-		/*	free(fullpath);*/
 			break;
 		}
 		index = token_to_av(buffer, " ");
@@ -72,11 +71,9 @@ int main(void)
 				exit(0);
 			}
 			wait(NULL);
-		/*	free(index);*/
-		/*	free(fullpath);*/
+			free(index);
 		}
 	}
-/*	free(index);*/
 	free(fullpath);
 	free(path);
 	free(buffer);
