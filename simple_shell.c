@@ -2,7 +2,7 @@
 
 int main(void)
 {
-	char *buffer = NULL, *fullpath = NULL, *fullpathaux = NULL;
+	char *buffer = NULL, *fullpath = NULL, *fullpathaux = NULL, *err = NULL;
 	char *env = NULL;
 	size_t bufsize = 1024;
 	int characters = 0, i = 0, flag = 0, status = 0;
@@ -48,18 +48,24 @@ int main(void)
 			}
 			if (stat(fullpath, &st) != 0)
 			{
-				perror(fullpath);
+				err = _strcat("$: ", index[0]);
+				perror(err);
 				free(index);
+				free(err);
 				flag = 2;
 			}
 		}
 	/*slash case bin ls*/
 		if (flag == 0)
 		{
-			if (stat(index[0], &st) != 0)
+			if (stat((index[0]), &st) != 0)
 			{
-				perror(index[0]);
 				
+			  err = _strcat("$: ", index[0]);
+                                perror(err);
+                                
+                                free(err);
+                                flag = 2;
 			
 			}
 	
