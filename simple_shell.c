@@ -3,7 +3,7 @@
 int main(void)
 {
 	char *buffer = NULL, *fullpath = NULL, *fullpathaux = NULL, *err = NULL;
-	char *env = NULL;
+	char *env = NULL, end[5] = "exit";
 	size_t bufsize = 1024;
 	int characters = 0, i = 0, flag = 0, status = 0;
 	char **index = NULL, **path = NULL;
@@ -12,10 +12,10 @@ int main(void)
 
 	env = _getenv("PATH");
 	if (env[0] == '\0')
-		exit(0);
+		exit(EXIT_FAILURE);
 	path = token_to_av(env, ":");
 	if (path == NULL)
-		exit(0);
+		exit(EXIT_FAILURE);
 	buffer = (char *)_calloc(bufsize, sizeof(char));
 	if (buffer == NULL)
 	{
@@ -25,6 +25,7 @@ int main(void)
 
 	while (1)
 	{
+		signal(SIGINT, ctrlc);
 		if (isatty(0))
 			write(1, "$ ", 3);
 		characters = getline(&buffer, &bufsize, stdin);
@@ -34,6 +35,8 @@ int main(void)
 		}
 		index = token_to_av(buffer, " ");
 
+		if (strncmp(buffer, end, 4) == 0)
+			break;
 		if (index[0][0] == '/')
 			flag = 0;
 		if (index[0][0] != '/')

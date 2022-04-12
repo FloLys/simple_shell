@@ -15,4 +15,6 @@ int token_cn(char *str, char *delim);
 char *_getenv(const char *var);
 char *_strcat(char *dest, char *src);
 void *_calloc(size_t nmemb, size_t size);
+void ctrlc(int sig_num);
+
 #endif
