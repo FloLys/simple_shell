@@ -46,20 +46,20 @@ int main(void)
 					break;
 				}
 			}
-			if (stat(fullpath, &st) != 0)
+			if (stat(fullpath, &st) != 0 || index[0][1] == '\0')
 			{
 				err = _strcat("$: ", index[0]);
 				perror(err);
 				free(index);
 				free(err);
 				flag = 2;
-				exit(EXIT_FAILURE);
+				
 			}
 		}
 	/*slash case bin ls*/
 		if (flag == 0)
 		{
-			if (stat((index[0]), &st) != 0)
+			if (stat((index[0]), &st) != 0 || index[0][1] == '\0')
 			{
 				
 			  err = _strcat("$: ", index[0]);
@@ -67,7 +67,7 @@ int main(void)
                                 
                                 free(err);
                                 flag = 2;
-				exit(EXIT_FAILURE);
+				
 			
 			}
 	
@@ -75,7 +75,13 @@ int main(void)
 		if (child_pid == 0)
 		{
 			execve(index[0], index, NULL);
-			exit(0);
+			exit(EXIT_SUCCESS);
+			
+			if (stat((index[0]), &st) != 0)
+                        {
+				exit(EXIT_FAILURE);
+                        }
+
 		}
 		wait(&status);
 		free(index);
@@ -88,6 +94,10 @@ int main(void)
 			{
 				execve(fullpath, index, NULL);
 				exit(EXIT_SUCCESS);
+				if (stat(fullpath, &st) != 0)
+				{
+				exit(EXIT_FAILURE);
+				}
 			}
 		wait(&status);
 		free(index);
