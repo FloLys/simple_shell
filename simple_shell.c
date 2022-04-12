@@ -30,7 +30,8 @@ int main(void)
 		}
 		index = token_to_av(buffer, " ");
 		
-		flag = 0;
+		if (index[0][0] == '/')
+			flag = 0;
 		if (index[0][0] != '/')
 		{
 			for (i = 0; path[i] != NULL; i++)
@@ -60,15 +61,11 @@ int main(void)
 		if (flag == 0)
 		{
 			if (stat((index[0]), &st) != 0 || index[0][1] == '\0')
-			{
-				
-			  err = _strcat("$: ", index[0]);
+			{		
+				err = _strcat("$: ", index[0]);
                                 perror(err);
-                                
                                 free(err);
                                 flag = 2;
-				
-			
 			}
 	
 		child_pid = fork();
