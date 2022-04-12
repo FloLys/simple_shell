@@ -37,10 +37,11 @@ int main(void)
 
 		if (strncmp(buffer, end, 4) == 0)
 		{
-			break;
-			free(buffer);
-			free(env);
 			free(path);
+			free(index);
+			free(buffer);
+			free(fullpath);
+			free(env);
 			exit(EXIT_SUCCESS);
 		}
 		if (index[0][0] == '/')
