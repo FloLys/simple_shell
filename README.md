@@ -33,6 +33,3 @@ It can also take as an argument a full path directory to work on:
 
 This will list the contents of the `bin` directory. And `ls ../` will list the contents of its parent directory.
 
-
-# AUTHORS
-     Florencia Mestre and German Izquierdo<https://github.com/FloLys/simple_shell>
