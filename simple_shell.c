@@ -11,7 +11,11 @@ int main(void)
 	struct stat st;
 
 	env = _getenv("PATH");
+	if (env[0] == '\0')
+		exit(0);
 	path = token_to_av(env, ":");
+	if (path == NULL)
+		exit(0);
 	buffer = (char *)_calloc(bufsize, sizeof(char));
 	if (buffer == NULL)
 	{
@@ -29,7 +33,7 @@ int main(void)
 			break;
 		}
 		index = token_to_av(buffer, " ");
-		
+
 		if (index[0][0] == '/')
 			flag = 0;
 		if (index[0][0] != '/')
@@ -54,31 +58,29 @@ int main(void)
 				free(index);
 				free(err);
 				flag = 2;
-				
 			}
 		}
 	/*slash case bin ls*/
 		if (flag == 0)
 		{
 			if (stat((index[0]), &st) != 0 || index[0][1] == '\0')
-			{		
+			{
 				err = _strcat("$: ", index[0]);
-                                perror(err);
-                                free(err);
-                                flag = 2;
+				perror(err);
+				free(err);
+				flag = 2;
 			}
-	
+
 		child_pid = fork();
 		if (child_pid == 0)
 		{
 			execve(index[0], index, NULL);
 			exit(EXIT_SUCCESS);
-			
-			if (stat((index[0]), &st) != 0)
-                        {
-				exit(EXIT_FAILURE);
-                        }
 
+			if (stat((index[0]), &st) != 0)
+			{
+				exit(EXIT_FAILURE);
+			}
 		}
 		wait(&status);
 		free(index);
@@ -106,5 +108,5 @@ int main(void)
 	free(buffer);
 	if (isatty(0))
 		write(1, "exit\n", 6);
-	return(WEXITSTATUS(status));
+	return (WEXITSTATUS(status));
 }
