@@ -36,7 +36,13 @@ int main(void)
 		index = token_to_av(buffer, " ");
 
 		if (strncmp(buffer, end, 4) == 0)
+		{
 			break;
+			free(buffer);
+			free(env);
+			free(path);
+			exit(EXIT_SUCCESS);
+		}
 		if (index[0][0] == '/')
 			flag = 0;
 		if (index[0][0] != '/')
