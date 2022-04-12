@@ -33,26 +33,6 @@ It can also take as an argument a full path directory to work on:
 
 This will list the contents of the `bin` directory. And `ls ../` will list the contents of its parent directory.
 
-##### FILES
-     /_printf.c
-          Main file.
-     /fn_sel.c
-          Function pointer to identified module functions.
-     /fn_unk.c
-          Counter function for an unknown identifier.
-     /fn_print.c
-          Definition of functions for character, string and module.
-     /_print_i.c
-          Definition of function for integers and decimals.
-     /_print_ui.c
-          Definition of function for unsigned integers.
-     /_pwr.c
-          Function to raise x to the power of x.
-     /_putchar.c
-          Custom function of putchar() to print the chars of the string.
-
-###### BUGS
-     Incomplete.
 
 ###### AUTHOR
      Florencia Mestre and German Izquierdo<https://github.com/FloLys/simple_shell>
