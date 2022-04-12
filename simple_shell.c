@@ -5,7 +5,7 @@ int main(void)
 	char *buffer = NULL, *fullpath = NULL, *fullpathaux = NULL, *err = NULL;
 	char *env = NULL, end[5] = "exit";
 	size_t bufsize = 1024;
-	int characters = 0, i = 0, flag = 0, status = 0;
+	int characters = 0, i = 0, k = 0, flag = 0, status = 0;
 	char **index = NULL, **path = NULL;
 	pid_t child_pid;
 	struct stat st;
@@ -44,6 +44,16 @@ int main(void)
 			free(env);
 			exit(EXIT_SUCCESS);
 		}
+
+		if (strncmp(buffer, "env", 3) == 0 && buffer[3] == '\0')
+		{
+			for (k = 0; environ[k] != NULL; k++)
+			{
+				write(1, environ[k], strlen(environ[k]));
+				write(1, "\n", 1);
+			}
+		}
+
 		if (index[0][0] == '/')
 			flag = 0;
 		if (index[0][0] != '/')
